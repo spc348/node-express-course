@@ -3,13 +3,17 @@ const express = require('express');
 // create instance of express called app
 const app = express();
 
+const bodyParser = require('body-parser');
+//deprecated
+app.use(bodyParser.json())
+
 // mock user data
-const mockUserData=[
+const mockUserData = [
     {name: 'Mark'},
     {name: 'Jill'}
 ]
 
-
+// get function
 app.get('/users', function(req,res){
     res.json({
         success: true,
@@ -18,6 +22,7 @@ app.get('/users', function(req,res){
     })
 })
 
+// get function
 app.get('/users/:id', function(req,res){
     console.log(req.params.id)
     res.json({
@@ -27,6 +32,27 @@ app.get('/users/:id', function(req,res){
     })
 })
 
+// post function
+app.post('/login', function(req, res){
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const mockUserName = "billy";
+    const mockPassword = "secret";
+    
+    if(username === mockUserName && password === mockPassword){
+        res.json({
+            success:true,
+            message: 'password and username correct',
+            token: 'encrypted password'
+        })
+    } else {
+        res.json({
+            sucess: 'failure',
+            messsage: 'hacker apprehended'
+        })
+    }
+})
 
 // run app
 app.listen(8000, function() {
